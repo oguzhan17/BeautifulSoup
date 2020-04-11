@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-
-for sayfa in range(2, 1376):
+import json
+allinn = ""
+jsonadi = "json"
+for sayfa in range(2, 3):
     sayfa = str(sayfa)
     url = 'https://www.idefix.com/kategori/Kitap/Edebiyat/grupno=00055?Page=' + sayfa
     url = url.strip()
@@ -21,6 +23,16 @@ for sayfa in range(2, 1376):
         blen = len(barcode) -1
         isim = barcode[0].text
         barkod = barcode[blen].text
-        content = "\"name\"" + ":" + "\"" + isim + "\""    "," + "\""  "barcode" + "\"" + ":"+ "\"" + barkod + "\""
-        print(content)
+        #content = "\"name\"" + ":" + "\"" + isim + "\""    "," + "\""  "barcode" + "\"" + ":"+ "\"" + barkod + "\""
+        #print(content)
+        #all = "{" + "ad" + ":" + isim + "," + "barkod" + ":" + barkod + "}"
+        contjson = {"ad": isim, "barkod" : barkod}
+        allinn = allinn + contjson.__str__() + ","
 
+print(allinn)
+#contjson = {"ad": isim, "barkod" : barkod}
+content_json = json.dumps(allinn, indent=2, sort_keys=True, ensure_ascii=False)
+json_yaz = open(f"{jsonadi}.json", "w+", encoding='utf8')
+json_yaz.write(content_json)
+json_yaz.close()
+print("\n\t\tjSon Oluşturuldu\n")
