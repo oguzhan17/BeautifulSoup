@@ -20,17 +20,18 @@ for sayfa in range(2, 3):
         soup = BeautifulSoup(url.content, 'html.parser')
         name = soup.find('h1', attrs={'class': 'mt0'}).text.strip()
         barcode = soup.findAll('a', attrs={'class': 'bold'})
+        images = soup.findAll(attrs={'id': 'main-product-img'})
+        for image in images:
+            image = image.get('data-src')
+
         blen = len(barcode) -1
         isim = barcode[0].text
         barkod = barcode[blen].text
-        #content = "\"name\"" + ":" + "\"" + isim + "\""    "," + "\""  "barcode" + "\"" + ":"+ "\"" + barkod + "\""
-        #print(content)
-        #all = "{" + "ad" + ":" + isim + "," + "barkod" + ":" + barkod + "}"
-        contjson = {"ad": isim, "barkod" : barkod}
+        contjson = {"ad": isim, "barkod" : barkod, "image": image}
         allinn = allinn + contjson.__str__() + ","
 
 print(allinn)
-#contjson = {"ad": isim, "barkod" : barkod}
+
 content_json = json.dumps(allinn, indent=2, sort_keys=True, ensure_ascii=False)
 json_yaz = open(f"{jsonadi}.json", "w+", encoding='utf8')
 json_yaz.write(content_json)
