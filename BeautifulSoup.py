@@ -21,16 +21,16 @@ for sayfa in range(2, 3):
         name = soup.find('h1', attrs={'class': 'mt0'}).text.strip()
         barcode = soup.findAll('a', attrs={'class': 'bold'})
         images = soup.findAll(attrs={'id': 'main-product-img'})
+        price = soup.find(attrs={'id': 'salePrice'}).text
+     
         for image in images:
             image = image.get('data-src')
-
         blen = len(barcode) -1
         isim = barcode[0].text
         barkod = barcode[blen].text
-        contjson = {"ad": isim, "barkod" : barkod, "image": image}
+        contjson = {"title" : isim, "barcode" : barkod, "image": image, "price" : price}
         allinn = allinn + contjson.__str__() + ","
 
-print(allinn)
 
 content_json = json.dumps(allinn, indent=2, sort_keys=True, ensure_ascii=False)
 json_yaz = open(f"{jsonadi}.json", "w+", encoding='utf8')
