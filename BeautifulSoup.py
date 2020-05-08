@@ -28,7 +28,7 @@ for sayfa in range(2, 3):
         blen = len(barcode) -1
         isim = barcode[0].text
         barkod = barcode[blen].text
-        contjson = {"title" : isim, "barcode" : barkod, "image": image, "price" : price}
+        contjson = {'title' : isim, 'barcode' : barkod, 'image': image, 'price' : price} 
         allinn = allinn + contjson.__str__() + ","
 
 
